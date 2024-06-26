@@ -600,7 +600,7 @@ try:
     st.cache_resource(ttl="2h")
     def main():
 
-        tab1, tab2 = st.tabs("Chat, query and github","sql")
+        tab1, tab2 = st.tabs("cqg","sql")
 
         with tab1:
 
