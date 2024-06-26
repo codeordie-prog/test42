@@ -613,13 +613,14 @@ try:
             if sidebar_option == "Github":
                 try:
                     if repo_url:
+                        chat_id = "chat_input__"+str(uuid.uuid4())
                         if "messages" not in st.session_state:
                             st.session_state["messages"] = [{"role": "assistant", "content": "How can I help with the code base?"}]
 
                         for msg in st.session_state["messages"]:
                             st.chat_message(msg["role"]).write(msg["content"])
 
-                        if user_input := st.chat_input():
+                        if user_input := st.chat_input(key=chat_id):
                             st.session_state["messages"].append({"role": "user", "content": user_input})
                             st.chat_message("user").write(user_input)
 
