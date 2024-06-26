@@ -600,64 +600,68 @@ try:
     st.cache_resource(ttl="2h")
     def main():
 
-        try:
+        tab1, tab2 = st.tabs("Chat, query and github","sql")
 
-            if sidebar_option == "Chat and query":
+        with tab1:
+
+            try:
+
+                if sidebar_option == "Chat and query":
+                    
+                    if uploaded_files and not url and not web_document_name:
+                        query_documents()
+
+                    elif not uploaded_files and not url and not web_document_name:
+
+                        chat_with_42()
+                    else:
+                        query_web()
+
+                elif sidebar_option == "Github":
+                    try:
+                        if repo_url:
+                            if "messages" not in st.session_state:
+                                st.session_state["messages"] = [{"role":"assistant","content":"how can i help with the code base?"}]
+
+                            for msg in st.session_state["messages"]:
+                                st.chat_message(msg["role"]).write(msg["content"])     
+
+                            if user_input := st.chat_input():
+
+                                st.session_state["messages"].append({"role": "user", "content": user_input})
+                                st.chat_message("user").write(user_input)
+                            
+                                chain = github_repo_query(repo_url,open_ai_key=openai_api_key)
+                                
+                                #use pick to select the desired key
+                                stream_chain = chain.pick("answer")
+                                #intermediate_step_chain = chain.pick("intermediate_steps")
+                                
+                                #create a response placeholder and set it to empty, it will be updated with each chunk
+                                response_placeholder = st.empty()
+                                response = ""
+                                for chunk in stream_chain.stream({"input":user_input}):
+                                    response += f"{chunk}"
+                                    response_placeholder.write(response) #update place holder
+                                
+                                ass_msg = response
+                                st.session_state["messages"].append({"role":"assistant","content":ass_msg})  
+                                response_placeholder.write(ass_msg)
+
                 
-                if uploaded_files and not url and not web_document_name:
-                    query_documents()
+                    except Exception as e:
+                        st.write("an error occured in Github sidebar option",e)
 
-                elif not uploaded_files and not url and not web_document_name:
-
-                    chat_with_42()
-                else:
-                    query_web()
-
-            elif sidebar_option == "Github":
-                try:
-                    if repo_url:
-                        if "messages" not in st.session_state:
-                             st.session_state["messages"] = [{"role":"assistant","content":"how can i help with the code base?"}]
-
-                        for msg in st.session_state["messages"]:
-                             st.chat_message(msg["role"]).write(msg["content"])     
-
-                        if user_input := st.chat_input():
-
-                            st.session_state["messages"].append({"role": "user", "content": user_input})
-                            st.chat_message("user").write(user_input)
-                        
-                            chain = github_repo_query(repo_url,open_ai_key=openai_api_key)
-                            
-                            #use pick to select the desired key
-                            stream_chain = chain.pick("answer")
-                            #intermediate_step_chain = chain.pick("intermediate_steps")
-                            
-                            #create a response placeholder and set it to empty, it will be updated with each chunk
-                            response_placeholder = st.empty()
-                            response = ""
-                            for chunk in stream_chain.stream({"input":user_input}):
-                                response += f"{chunk}"
-                                response_placeholder.write(response) #update place holder
-                              
-                            ass_msg = response
-                            st.session_state["messages"].append({"role":"assistant","content":ass_msg})  
-                            response_placeholder.write(ass_msg)
+                if st.sidebar.button("Download chat"):
+                    all_messages = "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state["messages"]])
+                    create_and_download(all_messages)
 
             
-                except Exception as e:
-                     st.write("an error occured in Github sidebar option",e)
-
-            if st.sidebar.button("Download chat"):
-               all_messages = "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state["messages"]])
-               create_and_download(all_messages)
-
-         
-        except TypeError:
-            st.write("encountered a None type inside main call, check url submitted it might be returning a none type object")
-        except Exception as e:
-             st.write("An error was encountered at main call",e)
-    
+            except TypeError:
+                st.write("encountered a None type inside main call, check url submitted it might be returning a none type object")
+            except Exception as e:
+                st.write("An error was encountered at main call",e)
+        
 
         
     #call main
