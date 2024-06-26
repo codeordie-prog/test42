@@ -611,7 +611,7 @@ try:
             if not uploaded_files and not url:
                 chat_with_42()
 
-        with tab2:
+        
             if sidebar_option == "Github":
                 try:
                     if repo_url:
