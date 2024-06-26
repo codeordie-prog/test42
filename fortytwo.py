@@ -600,24 +600,17 @@ try:
     st.cache_resource(ttl="2h")
     def main():
 
-        tab1, tab2 = st.tabs(["cqg","sql"])
+        tab1, tab2, tab3,tab4 = st.tabs(["chat","github","docs","sql"])
 
-        with tab1:
+        try:
+            
+            with tab1:
 
-            try:
+                if not uploaded_files and not url:
+                     chat_with_42()
 
-                if sidebar_option == "Chat and query":
-                    
-                    if uploaded_files and not url and not web_document_name:
-                        query_documents()
-
-                    elif not uploaded_files and not url and not web_document_name:
-
-                        chat_with_42()
-                    else:
-                        query_web()
-
-                elif sidebar_option == "Github":
+            with tab2:
+                if sidebar_option == "Github":
                     try:
                         if repo_url:
                             if "messages" not in st.session_state:
@@ -648,18 +641,21 @@ try:
                                 st.session_state["messages"].append({"role":"assistant","content":ass_msg})  
                                 response_placeholder.write(ass_msg)
 
-                
+            
                     except Exception as e:
                         st.write("an error occured in Github sidebar option",e)
+            with tab3:
+                if uploaded_files and not url:
+                     query_documents()
 
-                if st.sidebar.button("Download chat"):
+            if st.sidebar.button("Download chat"):
                     all_messages = "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state["messages"]])
                     create_and_download(all_messages)
 
             
-            except TypeError:
+        except TypeError:
                 st.write("encountered a None type inside main call, check url submitted it might be returning a none type object")
-            except Exception as e:
+        except Exception as e:
                 st.write("An error was encountered at main call",e)
         
 
