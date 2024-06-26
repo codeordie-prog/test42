@@ -433,7 +433,7 @@ try:
     #function-4 query documents           
     def query_documents():
 
-            chat_input_id = "chat_input__"+str(uuid.uuid5())
+            chat_input_id = "chat_input__"+str(uuid.uuid4())
             if not uploaded_files:
                 st.info("Please upload documents or add url to continue.")
                 st.stop()
