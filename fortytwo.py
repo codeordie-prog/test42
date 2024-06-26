@@ -370,7 +370,7 @@ try:
 
                     # Append assistant message to session state and display it
                     st.session_state["messages"].append({"role": "assistant", "content": assistant_msg})
-                    st.chat_message("assistant").write(assistant_msg)
+                    st.write(assistant_msg)
                     
                    
 
