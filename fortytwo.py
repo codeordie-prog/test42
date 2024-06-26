@@ -1,4 +1,5 @@
 import streamlit as st
+import uuid
 import io
 import tempfile
 import os
@@ -287,6 +288,8 @@ try:
     #function-4 chat session
 
     def chat_with_42():
+            
+            chat_input_key = "chat_input__" + str(uuid.uuid4())
             # Define the system prompt template
             system_prompt = ChatPromptTemplate.from_messages(
                 [
@@ -329,7 +332,7 @@ try:
             try:
                 
                 # Handle user input
-                if user_input := st.chat_input():
+                if user_input := st.chat_input(key=chat_input_key):
                     if not openai_api_key:
                         st.info("Please add your OpenAI API key to continue.")
                         st.stop()
