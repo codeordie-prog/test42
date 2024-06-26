@@ -58,8 +58,6 @@ st.set_page_config(
 
 
 #----------------------------------------------------- Load the image function-----------------------------------------------------#
-chat_input_key = "chat_input__" + str(uuid.uuid4())
-github_id = "gitid__" + str(uuid.uuid4()) 
 
 try:
     def load_image(image_path):
@@ -334,7 +332,7 @@ try:
             try:
                 
                 # Handle user input
-                if user_input := st.chat_input(key=chat_input_key):
+                if user_input := st.chat_input():
                     if not openai_api_key:
                         st.info("Please add your OpenAI API key to continue.")
                         st.stop()
@@ -436,7 +434,7 @@ try:
     #function-4 query documents           
     def query_documents():
 
-            chat_input_id = "chat_input__"+str(uuid.uuid4())
+           
             if not uploaded_files:
                 st.info("Please upload documents or add url to continue.")
                 st.stop()
@@ -475,7 +473,7 @@ try:
                 st.chat_message(avatars[msg.type]).write(msg.content)
                 
             st.markdown("Document query section. Utilize RAG you curious being.")
-            if user_query := st.chat_input(placeholder="Ask me about  your documents!",key=chat_input_id):
+            if user_query := st.chat_input(placeholder="Ask me about  your documents!"):
                 st.chat_message("user").write(user_query)
 
                 with st.chat_message("ai"):
