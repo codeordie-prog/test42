@@ -432,7 +432,8 @@ try:
 
     #function-4 query documents           
     def query_documents():
-        
+
+            chat_input_id = "chat_input__"+str(uuid.uuid5())
             if not uploaded_files:
                 st.info("Please upload documents or add url to continue.")
                 st.stop()
@@ -471,7 +472,7 @@ try:
                 st.chat_message(avatars[msg.type]).write(msg.content)
                 
             st.markdown("Document query section. Utilize RAG you curious being.")
-            if user_query := st.chat_input(placeholder="Ask me about  your documents!"):
+            if user_query := st.chat_input(placeholder="Ask me about  your documents!",key=chat_input_id):
                 st.chat_message("user").write(user_query)
 
                 with st.chat_message("ai"):
