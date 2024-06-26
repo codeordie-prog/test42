@@ -58,6 +58,8 @@ st.set_page_config(
 
 
 #----------------------------------------------------- Load the image function-----------------------------------------------------#
+chat_input_key = "chat_input__" + str(uuid.uuid4())
+github_id = "gitid__" + str(uuid.uuid4()) 
 
 try:
     def load_image(image_path):
@@ -289,7 +291,7 @@ try:
 
     def chat_with_42():
             
-            chat_input_key = "chat_input__" + str(uuid.uuid4())
+            
             # Define the system prompt template
             system_prompt = ChatPromptTemplate.from_messages(
                 [
@@ -613,14 +615,14 @@ try:
             if sidebar_option == "Github":
                 try:
                     if repo_url:
-                        chat_id = "chat_input__"+str(uuid.uuid4())
+                        
                         if "messages" not in st.session_state:
                             st.session_state["messages"] = [{"role": "assistant", "content": "How can I help with the code base?"}]
 
                         for msg in st.session_state["messages"]:
                             st.chat_message(msg["role"]).write(msg["content"])
 
-                        if user_input := st.chat_input(key=chat_id):
+                        if user_input := st.chat_input(key=github_id):
                             st.session_state["messages"].append({"role": "user", "content": user_input})
                             st.chat_message("user").write(user_input)
 
