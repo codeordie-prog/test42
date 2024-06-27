@@ -34,6 +34,7 @@ from langchain.chains.history_aware_retriever import create_history_aware_retrie
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from gcpmsql import connection
+import pymysql
 
 # You might also need to install some additional dependencies used in the code such as:
 # pip install streamlit langchain streamlit-chat gitpython requests lxml pillow pydantic
@@ -664,7 +665,7 @@ try:
 
                 if host and user and password and database:
                     try:
-                        conn = connection(HOST='{host}',USER='{user}',PASSWORD='{password}',DATABASE='{database}')
+                        conn = pymysql.connect(HOST=host,USER=user,PASSWORD=password,DATABASE=database)
 
                         crsr = conn.cursor()
 
