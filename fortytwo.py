@@ -663,21 +663,35 @@ try:
 
             elif sidebar_option == "SQL":
 
-                if host and user and password and database:
+                if host and user and password and database and query:
                     try:
-                        conn = pymysql.connect(host=host,user=user,password=password,database=database,connect_timeout=60,read_timeout=60)
+                        conn = pymysql.connect(
+                            host=host,
+                            user=user,
+                            password=password,
+                            database=database,
+                            connect_timeout=60,
+                            read_timeout=60
+                        )
 
                         crsr = conn.cursor()
 
                         query_s = f"{query}"
 
-                        result = crsr.execute(query=query_s)
+                        crsr.execute(query=query_s)
+                        result = crsr.fetchall()  # Fetch the results
 
+                        # Process or display the result as needed
                         st.write(result)
-                    except Exception as e:
-                        st.write(f"An error was encountered during creating connection : {e}")
 
+                    except pymysql.MySQLError as e:
+                        st.error(f"An error occurred while executing the SQL query: {e}")
 
+                    finally:
+                        conn.close()  # Ensure the connection is closed
+
+                else:
+                    st.error("Please provide all required database credentials and query.")
 
             if st.sidebar.button("Download chat"):
                all_messages = "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state["messages"]])
