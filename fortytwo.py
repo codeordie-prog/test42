@@ -670,13 +670,13 @@ try:
                             user=user,
                             password=password,
                             database=database,
-                            connect_timeout=60,
-                            read_timeout=60
+                            connect_timeout=120,
+                            read_timeout=120
                         )
 
                         crsr = conn.cursor()
 
-                        query_s = f"{query}"
+                        query_s = query
 
                         crsr.execute(query=query_s)
                         result = crsr.fetchall()  # Fetch the results
