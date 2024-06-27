@@ -128,7 +128,7 @@ try:
     if sidebar_option == "SQL":
          host = st.sidebar.text_input("Enter host address: ")
          user = st.sidebar.text_input("Enter user name: ")
-         password = st.sidebar.text_input(type='password')
+         password = st.sidebar.text_input("CLOUD SQL SERVER PASSWORD",type='password')
          database = st.sidebar.text_input("Enter database name: ")
          query = st.sidebar.text_input("Enter SQL Query: ")
     #-----------------------------------------------------upload documents sidebar--------------------------------------------------------------
