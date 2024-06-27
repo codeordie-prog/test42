@@ -666,10 +666,10 @@ try:
                 if host and user and password and database and query:
                     try:
                         conn = pymysql.connect(
-                            host=host,
-                            user=user,
-                            password=password,
-                            database=database,
+                            host='34.28.140.195',
+                            user='kelvin',
+                            password='kelvinjoe692',
+                            database='expense_tracker',
                             connect_timeout=120,
                             read_timeout=120
                         )
