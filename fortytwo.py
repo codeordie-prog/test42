@@ -661,18 +661,20 @@ try:
                      st.write("an error occured in Github sidebar option")
 
             elif sidebar_option == "SQL":
-                try:
-                    conn = connection(HOST=host,USER=user,PASSWORD=password,DATABASE=database)
 
-                    crsr = conn.cursor()
+                if host and user and password and database:
+                    try:
+                        conn = connection(HOST=host,USER=user,PASSWORD=password,DATABASE=database)
 
-                    query_s = f"{query}"
+                        crsr = conn.cursor()
 
-                    result = crsr.execute(query=query_s)
+                        query_s = f"{query}"
 
-                    st.write(result)
-                except Exception as e:
-                     st.write(f"An error was encountered during creating connection : {e}")
+                        result = crsr.execute(query=query_s)
+
+                        st.write(result)
+                    except Exception as e:
+                        st.write(f"An error was encountered during creating connection : {e}")
 
 
 
