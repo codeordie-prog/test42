@@ -33,7 +33,7 @@ from langchain_community.document_loaders.parsers.language import LanguageParser
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from gcpmsql import connection
+from gcpmsql import connection,result
 import pymysql
 
 # You might also need to install some additional dependencies used in the code such as:
@@ -658,31 +658,10 @@ try:
 
             elif sidebar_option == "SQL":
 
-                    try:
-                        conn = pymysql.connect(
-                            host='34.28.140.195',
-                            user='kelvin',
-                            password='kelvinjoe692',
-                            database='expense_tracker',
-                            connect_timeout=60,
-                            read_timeout=60
-                        )
+                    rst = result()
 
-                        crsr = conn.cursor()
-
-                        query_s = 'SELECT * FROM expenses'
-
-                        crsr.execute(query=query_s)
-                        result = crsr.fetchall()  # Fetch the results
-
-                        # Process or display the result as needed
-                        st.write(result)
-
-                    except pymysql.MySQLError as e:
-                        st.error(f"An error occurred while executing the SQL query: {e}")
-
-                    finally:
-                        conn.close()  # Ensure the connection is closed
+                    st.write(rst)
+                        
 
             
 
