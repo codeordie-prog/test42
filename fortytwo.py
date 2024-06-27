@@ -33,6 +33,7 @@ from langchain_community.document_loaders.parsers.language import LanguageParser
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
+from gcpmsql import connection
 
 # You might also need to install some additional dependencies used in the code such as:
 # pip install streamlit langchain streamlit-chat gitpython requests lxml pillow pydantic
@@ -118,12 +119,18 @@ try:
 
     sidebar_option = st.sidebar.radio(
          "Select an option",
-         ("Chat and query","Github")
+         ("Chat and query","Github","SQL")
     )
 
     if sidebar_option == "Github":
          repo_url = st.sidebar.text_input("Enter repository url: ")
 
+    if sidebar_option == "SQL":
+         host = st.sidebar.text_input("Enter host address: ")
+         user = st.sidebar.text_input("Enter user name: ")
+         password = st.sidebar.text_input(type='password')
+         database = st.sidebar.text_input("Enter database name: ")
+         query = st.sidebar.text_input("Enter SQL Query: ")
     #-----------------------------------------------------upload documents sidebar--------------------------------------------------------------
     # File uploader in the sidebar
     uploaded_files = st.sidebar.file_uploader(
@@ -652,6 +659,22 @@ try:
             
                 except Exception:
                      st.write("an error occured in Github sidebar option")
+
+            elif sidebar_option == "SQL":
+                try:
+                    conn = connection(HOST=host,USER=user,PASSWORD=password,DATABASE=database)
+
+                    crsr = conn.cursor()
+
+                    query_s = f"{query}"
+
+                    result = crsr.execute(query=query_s)
+
+                    st.write(result)
+                except Exception as e:
+                     st.write(f"An error was encountered during creating connection : {e}")
+
+
 
             if st.sidebar.button("Download chat"):
                all_messages = "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state["messages"]])
