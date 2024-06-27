@@ -664,7 +664,7 @@ try:
 
                 if host and user and password and database:
                     try:
-                        conn = connection(HOST=host,USER=user,PASSWORD=password,DATABASE=database)
+                        conn = connection(HOST='{host}',USER='{user}',PASSWORD='{password}',DATABASE='{database}')
 
                         crsr = conn.cursor()
 
