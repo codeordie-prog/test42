@@ -126,12 +126,7 @@ try:
     if sidebar_option == "Github":
          repo_url = st.sidebar.text_input("Enter repository url: ")
 
-    if sidebar_option == "SQL":
-         host = st.sidebar.text_input("Enter host address: ")
-         user = st.sidebar.text_input("Enter user name: ")
-         password = st.sidebar.text_input("CLOUD SQL SERVER PASSWORD",type='password')
-         database = st.sidebar.text_input("Enter database name: ")
-         query = st.sidebar.text_input("Enter SQL Query: ")
+   
     #-----------------------------------------------------upload documents sidebar--------------------------------------------------------------
     # File uploader in the sidebar
     uploaded_files = st.sidebar.file_uploader(
@@ -663,20 +658,19 @@ try:
 
             elif sidebar_option == "SQL":
 
-                if host and user and password and database and query:
                     try:
                         conn = pymysql.connect(
                             host='34.28.140.195',
                             user='kelvin',
                             password='kelvinjoe692',
                             database='expense_tracker',
-                            connect_timeout=120,
-                            read_timeout=120
+                            connect_timeout=60,
+                            read_timeout=60
                         )
 
                         crsr = conn.cursor()
 
-                        query_s = query
+                        query_s = 'SELECT * FROM expenses'
 
                         crsr.execute(query=query_s)
                         result = crsr.fetchall()  # Fetch the results
@@ -690,8 +684,7 @@ try:
                     finally:
                         conn.close()  # Ensure the connection is closed
 
-                else:
-                    st.error("Please provide all required database credentials and query.")
+            
 
             if st.sidebar.button("Download chat"):
                all_messages = "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state["messages"]])
