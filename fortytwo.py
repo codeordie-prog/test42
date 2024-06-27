@@ -665,7 +665,7 @@ try:
 
                 if host and user and password and database:
                     try:
-                        conn = pymysql.connect(host=host,user=user,password=password,database=database)
+                        conn = pymysql.connect(host=host,user=user,password=password,database=database,connect_timeout=60,read_timeout=60)
 
                         crsr = conn.cursor()
 
