@@ -1,9 +1,9 @@
 import pymysql
 
-HOST = '34.28.140.195'
-USER='kelvin'
-DATABASE ='expense_tracker'
-PASSWORD = 'Kelvinjoe692'
+HOST = ''
+USER=''
+DATABASE =''
+PASSWORD = ''
 
 
 #create connection
