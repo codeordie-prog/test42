@@ -656,10 +656,10 @@ try:
 
             elif sidebar_option == "SQL":
 
-                    rst = result()
+                    #rst = result()
 
-                    st.write(rst)
-                        
+                    #st.write(rst)
+                     pass   
 
             
 
