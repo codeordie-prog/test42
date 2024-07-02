@@ -21,3 +21,8 @@ def result():
     with engine.connect() as conn:
         result = conn.execute(sqlalchemy.text(f'SELECT * FROM {TABLE_NAME}'))
         return result.fetchall()
+
+
+res = result()
+
+print(res)

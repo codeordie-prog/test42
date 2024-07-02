@@ -544,25 +544,55 @@ try:
                 repo_path = os.path.join(temp_dir, "repo")
                 repo = Repo.clone_from(github_repo_url, to_path=repo_path)
 
+                documents = []
+                #map suffixes
+
+                language_suffixes = {
+                     Language.PYTHON : [".py"],
+                     Language.JAVA : [".java"],
+                     Language.GO : [".go"],
+                     Language.JS : [".js"]
+                }
+
+                for language,suffix in language_suffixes.items():
+                     
+                     loader = GenericLoader.from_filesystem(
+                          repo_path,
+                          glob="**/*",
+                          suffixes=suffix,
+                          exclude=["**/non-utf8-encoding.*"],
+                          parser=LanguageParser(language=language,parser_threshold=500)
+                     )
+                     documents.extend(loader.load())
                 # Load
-                loader = GenericLoader.from_filesystem(
-                    repo_path,
-                    glob="**/*",
-                    suffixes=[".py"],
-                    exclude=["**/non-utf8-encoding.py"],
-                    parser=LanguageParser(language=Language.PYTHON, parser_threshold=500),
-                )
-                documents = loader.load()
+                #loader = GenericLoader.from_filesystem(
+                    #repo_path,
+                   # glob="**/*",
+                   ## suffixes=[".py"],
+                    #exclude=["**/non-utf8-encoding.py"],
+                    #parser=LanguageParser(language=Language.PYTHON, parser_threshold=500),
+               ## )
+                #documents = loader.load()
                 #st.write(documents)
 
                 # Split
-                python_splitter = RecursiveCharacterTextSplitter.from_language(
-                    language=Language.PYTHON, chunk_size=2000, chunk_overlap=200
-                )
-                texts = python_splitter.split_documents(documents)
+                split_texts = []
+
+                for language in language_suffixes.keys():
+                     
+                     splitter = RecursiveCharacterTextSplitter.from_language(
+                          language=language,chunk_size=2000,chunk_overlap=200
+                     )
+                     split_texts.extend(splitter.split_documents(documents))
+
+
+                #python_splitter = RecursiveCharacterTextSplitter.from_language(
+                    #language=Language.PYTHON, chunk_size=2000, chunk_overlap=200
+                #)
+                #texts = python_splitter.split_documents(documents)
 
                 # Retriever
-                db = Chroma.from_documents(texts, OpenAIEmbeddings(disallowed_special=(), api_key=open_ai_key))
+                db = Chroma.from_documents(split_texts, OpenAIEmbeddings(disallowed_special=(), api_key=open_ai_key))
                 retriever = db.as_retriever(
                     search_type="mmr",  # Also test "similarity"
                     search_kwargs={"k": 8},
