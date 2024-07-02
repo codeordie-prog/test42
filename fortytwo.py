@@ -35,7 +35,7 @@ from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from gcpmsql import connection
 import pymysql
-from test import result
+#from test import result
 
 # You might also need to install some additional dependencies used in the code such as:
 # pip install streamlit langchain streamlit-chat gitpython requests lxml pillow pydantic
@@ -684,12 +684,12 @@ try:
                 except Exception:
                      st.write("an error occured in Github sidebar option")
 
-            elif sidebar_option == "SQL":
+            #elif sidebar_option == "SQL":
 
                     #rst = result()
 
                     #st.write(rst)
-                     pass   
+                    # pass   
 
             
 
