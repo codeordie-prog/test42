@@ -3,13 +3,13 @@ import sqlalchemy
 
 
 # @markdown Please fill in the both the Google Cloud region and name of your Cloud SQL instance.
-REGION = "us-central1"  # @param {type:"string"}
-INSTANCE = "mysqlbudget"  # @param {type:"string"}
-DATABASE = "expense_tracker"  # @param {type:"string"}
-TABLE_NAME = "expenses"  # @param {type:"string"}
-USER = 'kelvin'
-PASSWORD = 'Kelvinjoe692'
-PROJECT_ID = 'local-vehicle-427618-q4'
+REGION = ""  # @param {type:"string"}
+INSTANCE = ""  # @param {type:"string"}
+DATABASE = ""  # @param {type:"string"}
+TABLE_NAME = ""  # @param {type:"string"}
+USER = ''
+PASSWORD = ''
+PROJECT_ID = ''
 
 
 
