@@ -630,8 +630,8 @@ try:
                 qa = create_retrieval_chain(retriever_chain, document_chain)
 
                 return qa
-        except Exception:
-             st.write("an error occured inside the github repo function.")
+        except Exception as e:
+             st.write("an error occured inside the github repo function.", e)
 
 
        
