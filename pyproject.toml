@@ -23,6 +23,8 @@ pypdf = "^4.2.0"
 pymysql = "^1.1.1"
 langchain-google-cloud-sql-mysql = "^0.2.2"
 sqlalchemy = "^2.0.31"
+tree-sitter = "^0.22.3"
+tree-sitter-languages = "^1.10.2"
 
 
 
